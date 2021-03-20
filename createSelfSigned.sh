@@ -1,3 +1,25 @@
 #!/usr/bin/env bash
-openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout server.key -config server.csr.cnf
-openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out server.crt -days 825 -sha256 -extfile v3.ext
+
+cd $(dirname "$0")
+
+mkdir -p ../keys
+
+openssl req \
+        -new \
+        -sha256 \
+        -nodes \
+        -out ../keys/server.csr \
+        -newkey rsa:2048 \
+        -keyout ../keys/server.key \
+        -config server.csr.cnf
+
+openssl x509 \
+        -req \
+        -in ../keys/server.csr \
+        -CA ../keys/rootCA.pem \
+        -CAkey ../keys/rootCA.key \
+        -CAcreateserial \
+        -out ../keys/server.crt \
+        -days 500 \
+        -sha256 \
+        -extfile v3.ext
